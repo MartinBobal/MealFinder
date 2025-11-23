@@ -4,26 +4,75 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.mealfinder.ui.welcome.WelcomeScreen
+import com.example.mealfinder.data.repository.MealRepository
+import com.example.mealfinder.data.api.MealApiClient
+import com.example.mealfinder.ui.random.RandomMealScreen
+import com.example.mealfinder.ui.random.RandomMealViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.mealfinder.ui.random.RandomMealViewModelFactory
+import com.example.mealfinder.ui.search.SearchViewModel
+import com.example.mealfinder.ui.search.SearchScreen
+import com.example.mealfinder.ui.search.SearchViewModelFactory
+import com.example.mealfinder.ui.detail.MealDetailScreen
+
+
 
 @Composable
 fun AppNavHost(navController: NavHostController) {
     NavHost(navController = navController, startDestination = "welcome") {
 
         composable("welcome") {
-            // TODO: WelcomeScreen
+            WelcomeScreen(
+                onRandomClick = {
+                    navController.navigate("random")
+                },
+                onSearchClick = {
+                    navController.navigate("search")
+                }
+            )
         }
 
         composable("random") {
-            // TODO: RandomMealScreen
+
+            val viewModel: RandomMealViewModel = viewModel(
+                factory = RandomMealViewModelFactory(
+                    MealRepository(MealApiClient.api)
+                )
+            )
+
+
+            RandomMealScreen(
+                viewModel = viewModel,
+                onBack = { navController.popBackStack() }
+            )
         }
 
         composable("search") {
-            // TODO: SearchScreen
+
+            val viewModel: SearchViewModel = viewModel(
+                factory = SearchViewModelFactory(
+                    MealRepository(MealApiClient.api)
+                )
+            )
+
+            SearchScreen(
+                viewModel = viewModel,
+                onMealClick = { mealId ->
+                    navController.navigate("detail/$mealId")
+                },
+                onBack = { navController.popBackStack() }
+            )
         }
 
         composable("detail/{mealId}") { backStackEntry ->
             val mealId = backStackEntry.arguments?.getString("mealId") ?: ""
-            // TODO: MealDetailScreen
+
+            MealDetailScreen(
+                mealId = mealId,
+                onBack = { navController.popBackStack() }
+            )
         }
+
     }
 }

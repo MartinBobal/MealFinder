@@ -7,4 +7,6 @@ class MealRepository(
 ) {
     suspend fun getRandomMeal() = api.getRandomMeal()
     suspend fun searchMeals(query: String) = api.searchMeals(query)
+    suspend fun getMealById(id: String) = api.getMealById(id)
+
 }

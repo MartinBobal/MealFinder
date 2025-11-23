@@ -7,6 +7,8 @@ import com.example.mealfinder.data.repository.MealRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import com.example.mealfinder.ui.search.SearchViewModel
+
 
 class SearchViewModel(
     private val repository: MealRepository
