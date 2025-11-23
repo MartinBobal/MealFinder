@@ -10,6 +10,7 @@ espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.9.3"
 composeBom = "2024.04.01"
+material = "1.13.0"
 material3 = "1.4.0"
 moshiKotlin = "1.15.1"
 navigationCompose = "2.9.6"
@@ -33,6 +34,7 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+material = { module = "com.google.android.material:material", version.ref = "material" }
 material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshiKotlin" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
