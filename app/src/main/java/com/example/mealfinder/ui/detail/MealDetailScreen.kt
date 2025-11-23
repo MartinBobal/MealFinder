@@ -9,21 +9,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.example.mealfinder.data.repository.MealRepository
 import com.example.mealfinder.data.api.MealApiClient
+import com.example.mealfinder.data.model.Meal
+import com.example.mealfinder.data.repository.MealRepository
 
 @Composable
 fun MealDetailScreen(
     mealId: String,
     onBack: () -> Unit
 ) {
-    var mealState by remember { mutableStateOf<com.example.mealfinder.data.model.Meal?>(null) }
+    var meal by remember { mutableStateOf<Meal?>(null) }
 
-    // Načíst data při vstupu na obrazovku
     LaunchedEffect(mealId) {
         val repo = MealRepository(MealApiClient.api)
-        val meal = repo.getMealById(mealId).meals?.firstOrNull()
-        mealState = meal
+        meal = repo.getMealById(mealId).meals?.firstOrNull()
     }
 
     Column(
@@ -39,12 +38,11 @@ fun MealDetailScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        val meal = mealState
         if (meal == null) {
             Text("Načítám…")
         } else {
             Image(
-                painter = rememberAsyncImagePainter(meal.strMealThumb),
+                painter = rememberAsyncImagePainter(meal!!.strMealThumb),
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -53,11 +51,11 @@ fun MealDetailScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Text(text = meal.strMeal ?: "")
+            Text(text = meal!!.strMeal ?: "")
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Text(text = meal.strInstructions ?: "")
+            Text(text = meal!!.strInstructions ?: "")
         }
     }
 }
