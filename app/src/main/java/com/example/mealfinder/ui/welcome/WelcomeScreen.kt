@@ -46,7 +46,6 @@ fun WelcomeScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // TLAČÍTKO OBLÍBENÉ
         Button(
             onClick = { navController.navigate("favorite") },
             modifier = Modifier.fillMaxWidth()

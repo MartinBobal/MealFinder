@@ -28,14 +28,12 @@ fun SearchScreen(
             .padding(16.dp)
     ) {
 
-        // Back button
         Button(onClick = onBack) {
             Text("Zpět")
         }
 
         Spacer(Modifier.height(16.dp))
 
-        // Search box
         OutlinedTextField(
             value = query,
             onValueChange = { query = it },
@@ -45,7 +43,6 @@ fun SearchScreen(
 
         Spacer(Modifier.height(8.dp))
 
-        // Search button
         Button(
             onClick = { viewModel.search(query) },
             modifier = Modifier.fillMaxWidth()
@@ -55,7 +52,6 @@ fun SearchScreen(
 
         Spacer(Modifier.height(16.dp))
 
-        // Results list
         val results = viewModel.results.collectAsState()
 
         LazyColumn {
