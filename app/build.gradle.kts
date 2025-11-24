@@ -67,6 +67,7 @@ dependencies {
     implementation(libs.material3)
     implementation(libs.material)
     implementation(libs.core.splashscreen)
+    implementation(libs.androidx.material.icons.extended)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

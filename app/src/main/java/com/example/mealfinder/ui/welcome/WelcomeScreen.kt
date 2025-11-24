@@ -7,9 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 
 @Composable
 fun WelcomeScreen(
+    navController: NavHostController,
     onRandomClick: () -> Unit,
     onSearchClick: () -> Unit
 ) {
@@ -40,6 +42,16 @@ fun WelcomeScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Vyhledat recept")
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // TLAČÍTKO OBLÍBENÉ
+        Button(
+            onClick = { navController.navigate("favorite") },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Oblíbené recepty")
         }
     }
 }

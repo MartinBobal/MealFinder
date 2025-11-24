@@ -2,6 +2,8 @@ package com.example.mealfinder.ui.detail
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -12,11 +14,13 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.mealfinder.data.api.MealApiClient
 import com.example.mealfinder.data.model.Meal
 import com.example.mealfinder.data.repository.MealRepository
+import com.example.mealfinder.ui.favorite.FavoriteViewModel
 
 @Composable
 fun MealDetailScreen(
     mealId: String,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    favoriteViewModel: FavoriteViewModel
 ) {
     var meal by remember { mutableStateOf<Meal?>(null) }
 
@@ -28,6 +32,7 @@ fun MealDetailScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -41,6 +46,7 @@ fun MealDetailScreen(
         if (meal == null) {
             Text("Načítám…")
         } else {
+
             Image(
                 painter = rememberAsyncImagePainter(meal!!.strMealThumb),
                 contentDescription = null,
@@ -54,6 +60,17 @@ fun MealDetailScreen(
             Text(text = meal!!.strMeal ?: "")
 
             Spacer(modifier = Modifier.height(16.dp))
+
+            Button(
+                onClick = {
+                    favoriteViewModel.addFavorite(meal!!.strMeal ?: "Neznámý recept")
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Přidat do oblíbených")
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
 
             Text(text = meal!!.strInstructions ?: "")
         }

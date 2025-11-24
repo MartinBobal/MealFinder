@@ -15,23 +15,26 @@ import com.example.mealfinder.ui.search.SearchViewModel
 import com.example.mealfinder.ui.search.SearchScreen
 import com.example.mealfinder.ui.search.SearchViewModelFactory
 import com.example.mealfinder.ui.detail.MealDetailScreen
-
+import com.example.mealfinder.ui.favorite.FavoriteScreen
+import com.example.mealfinder.ui.favorite.FavoriteViewModel
 
 
 @Composable
 fun AppNavHost(navController: NavHostController) {
+
+    val favoriteViewModel: FavoriteViewModel = viewModel()
+
     NavHost(navController = navController, startDestination = "welcome") {
 
         composable("welcome") {
             WelcomeScreen(
-                onRandomClick = {
-                    navController.navigate("random")
-                },
-                onSearchClick = {
-                    navController.navigate("search")
-                }
+                navController = navController,
+            onRandomClick = { navController.navigate("random") },
+            onSearchClick = { navController.navigate("search") }
             )
         }
+
+
 
         composable("random") {
 
@@ -70,8 +73,13 @@ fun AppNavHost(navController: NavHostController) {
 
             MealDetailScreen(
                 mealId = mealId,
-                onBack = { navController.popBackStack() }
+                onBack = { navController.popBackStack() },
+                favoriteViewModel = favoriteViewModel
             )
+        }
+
+        composable("favorite") {
+            FavoriteScreen(viewModel = favoriteViewModel)
         }
 
     }
