@@ -12,45 +12,50 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FavoriteScreen(
-    viewModel: FavoriteViewModel,
+    favoritesViewModel: FavoriteViewModel,
     onMealClick: (String) -> Unit
 ) {
-    val favorites by viewModel.favorites.collectAsState()
+    val favorites by favoritesViewModel.favorites.collectAsState()
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Oblíbené recepty") }) }
+        topBar = {
+            TopAppBar(title = { Text("Oblíbené recepty") })
+        }
     ) { padding ->
+        Box(Modifier.padding(padding)) {
 
-        if (favorites.isEmpty()) {
-            Box(Modifier.padding(padding).padding(16.dp)) {
-                Text("Zatím nemáš žádné oblíbené recepty.")
-            }
-        } else {
+            if (favorites.isEmpty()) {
+                Text(
+                    "Zatím nemáš žádné oblíbené recepty.",
+                    modifier = Modifier.padding(16.dp)
+                )
+            } else {
+                val list = favorites.toList()
 
-            LazyColumn(
-                modifier = Modifier
-                    .padding(padding)
-                    .padding(16.dp)
-            ) {
-                items(favorites) { item ->
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp)
+                ) {
+                    items(list) { (id, name) ->
 
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .clickable { onMealClick(item.id) }
-                            .padding(vertical = 12.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(item.name)
-
-                        Button(
-                            onClick = { viewModel.removeFavorite(item.id) }
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { onMealClick(id) }
+                                .padding(vertical = 12.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text("X")
+                            Text(name)
+                            Button(
+                                onClick = { favoritesViewModel.removeFavorite(id) }
+                            ) {
+                                Text("X")
+                            }
                         }
-                    }
 
-                    Divider()
+                        Divider()
+                    }
                 }
             }
         }

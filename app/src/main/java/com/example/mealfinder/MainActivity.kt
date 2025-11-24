@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.mealfinder.navigation.AppNavHost
 import com.example.mealfinder.navigation.BottomNavBar
@@ -27,14 +27,18 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
-    val favoriteViewModel = remember { FavoriteViewModel() }
+
+    val favoriteViewModel: FavoriteViewModel = viewModel()
 
     Scaffold(
-        bottomBar = { BottomNavBar(navController) }
+        bottomBar = {
+            BottomNavBar(navController)
+        }
     ) { innerPadding ->
         AppNavHost(
             navController = navController,
-            favoriteViewModel = favoriteViewModel
+            favoriteViewModel = favoriteViewModel,
+            padding = innerPadding
         )
     }
 }
