@@ -1,4 +1,4 @@
-MealFinder je moderní mobilní aplikace pro Android vyvinutá v jazyce Kotlin s využitím Jetpack Compose, MVVM architektury, REST API, navigačního grafu, DataStore pro perzistenci a vlastní ikonou & splashscreenem.
+MealFinder je aplikace pro Android vyvinutá v jazyce Kotlin s využitím Jetpack Compose, MVVM architektury, REST API, navigačního grafu, DataStore pro perzistenci a vlastní ikonou & splashscreenem.
 Umožňuje vyhledávat recepty, zobrazit jejich detail, generovat náhodné jídlo a ukládat oblíbené recepty i po restartu aplikace.
 
 🚀 Hlavní funkce aplikace
