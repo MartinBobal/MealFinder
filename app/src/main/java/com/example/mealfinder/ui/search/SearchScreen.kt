@@ -27,11 +27,6 @@ fun SearchScreen(
             .fillMaxSize()
             .padding(16.dp)
     ) {
-
-        Button(onClick = onBack) {
-            Text("Zpět")
-        }
-
         Spacer(Modifier.height(16.dp))
 
         OutlinedTextField(

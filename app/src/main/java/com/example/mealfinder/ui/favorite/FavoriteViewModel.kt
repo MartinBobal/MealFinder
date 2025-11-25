@@ -1,35 +1,52 @@
 package com.example.mealfinder.ui.favorite
 
-import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.SharingStarted
+import com.example.mealfinder.data.DataStoreManager
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
-data class FavoriteItem(val id: String, val name: String)
+class FavoriteViewModel(application: Application) : AndroidViewModel(application) {
 
-class FavoriteViewModel : ViewModel() {
+    private val dataStore = DataStoreManager(application)
 
-    private val _favorites = MutableStateFlow<List<FavoriteItem>>(emptyList())
-    val favorites: StateFlow<List<FavoriteItem>> = _favorites
+    private val _favorites = MutableStateFlow<Map<String, String>>(emptyMap())
+    val favorites: StateFlow<Map<String, String>> = _favorites.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            dataStore.favoritesFlow.collect {
+                _favorites.value = it
+            }
+        }
+    }
 
     fun addFavorite(id: String, name: String) {
-        if (_favorites.value.any { it.id == id }) return
-        _favorites.value = _favorites.value + FavoriteItem(id, name)
+        val updated = _favorites.value + (id to name)
+        _favorites.value = updated
+
+        viewModelScope.launch {
+            dataStore.saveFavorites(updated)
+        }
     }
 
     fun removeFavorite(id: String) {
-        _favorites.value = _favorites.value.filterNot { it.id == id }
+        val updated = _favorites.value - id
+        _favorites.value = updated
+
+        viewModelScope.launch {
+            dataStore.saveFavorites(updated)
+        }
     }
 
-    fun isFavorite(id: String): StateFlow<Boolean> =
-        _favorites
-            .map { list -> list.any { it.id == id } }
+    fun isFavorite(id: String): StateFlow<Boolean> {
+        return favorites
+            .map { it.containsKey(id) }
             .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.Eagerly,
-                initialValue = false
+                viewModelScope,
+                SharingStarted.Eagerly,
+                initialValue = _favorites.value.containsKey(id)
             )
+    }
 }

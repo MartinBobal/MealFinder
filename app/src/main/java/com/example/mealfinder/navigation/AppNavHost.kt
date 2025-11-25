@@ -27,13 +27,13 @@ fun AppNavHost(
     favoriteViewModel: FavoriteViewModel,
     padding: PaddingValues
 ) {
+
     NavHost(
         navController = navController,
         startDestination = "welcome",
         modifier = Modifier.padding(padding)
     ) {
 
-        // HOME
         composable("welcome") {
             WelcomeScreen(
                 navController = navController,
@@ -42,7 +42,6 @@ fun AppNavHost(
             )
         }
 
-        // RANDOM
         composable("random") {
             val vm: RandomMealViewModel = viewModel(
                 factory = RandomMealViewModelFactory(
@@ -52,11 +51,11 @@ fun AppNavHost(
 
             RandomMealScreen(
                 viewModel = vm,
+                favoriteViewModel = favoriteViewModel,
                 onBack = { navController.popBackStack() }
             )
         }
 
-        // SEARCH
         composable("search") {
             val vm: SearchViewModel = viewModel(
                 factory = SearchViewModelFactory(
@@ -71,18 +70,16 @@ fun AppNavHost(
             )
         }
 
-        // DETAIL
         composable("detail/{mealId}") { entry ->
-            val id = entry.arguments?.getString("mealId") ?: ""
+            val mealId = entry.arguments?.getString("mealId") ?: ""
 
             MealDetailScreen(
-                mealId = id,
-                onBack = { navController.popBackStack() },
-                favoriteViewModel = favoriteViewModel
+                mealId = mealId,
+                favoriteViewModel = favoriteViewModel,
+                onBack = { navController.popBackStack() }
             )
         }
 
-        // FAVORITES
         composable("favorite") {
             FavoriteScreen(
                 favoritesViewModel = favoriteViewModel,
