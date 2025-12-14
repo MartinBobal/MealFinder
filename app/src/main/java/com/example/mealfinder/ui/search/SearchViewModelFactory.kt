@@ -8,6 +8,7 @@ class SearchViewModelFactory(
     private val repository: MealRepository
 ) : ViewModelProvider.Factory {
 
+    // Vytvoření instance SearchViewModelu s předaným repository
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SearchViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")

@@ -9,14 +9,17 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import com.example.mealfinder.ui.search.SearchViewModel
 
-
 class SearchViewModel(
     private val repository: MealRepository
 ) : ViewModel() {
 
+    // Interní stav seznamu nalezených receptů
     private val _results = MutableStateFlow<List<Meal>>(emptyList())
+
+    // Veřejně dostupný neměnný StateFlow s výsledky
     val results = _results.asStateFlow()
 
+    // Vyhledání receptů podle zadaného dotazu
     fun search(query: String) {
         viewModelScope.launch {
             val response = repository.searchMeals(query)

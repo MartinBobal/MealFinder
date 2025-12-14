@@ -28,12 +28,14 @@ fun AppNavHost(
     padding: PaddingValues
 ) {
 
+    // Definice hlavního navigačního grafu aplikace
     NavHost(
         navController = navController,
         startDestination = "welcome",
         modifier = Modifier.padding(padding)
     ) {
 
+        // Úvodní obrazovka
         composable("welcome") {
             WelcomeScreen(
                 navController = navController,
@@ -42,6 +44,7 @@ fun AppNavHost(
             )
         }
 
+        // Obrazovka s náhodným receptem
         composable("random") {
             val vm: RandomMealViewModel = viewModel(
                 factory = RandomMealViewModelFactory(
@@ -56,6 +59,7 @@ fun AppNavHost(
             )
         }
 
+        // Obrazovka vyhledávání receptů
         composable("search") {
             val vm: SearchViewModel = viewModel(
                 factory = SearchViewModelFactory(
@@ -70,6 +74,7 @@ fun AppNavHost(
             )
         }
 
+        // Detail receptu
         composable("detail/{mealId}") { entry ->
             val mealId = entry.arguments?.getString("mealId") ?: ""
 
@@ -80,6 +85,7 @@ fun AppNavHost(
             )
         }
 
+        // Seznam oblíbených receptů
         composable("favorite") {
             FavoriteScreen(
                 favoritesViewModel = favoriteViewModel,

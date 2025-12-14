@@ -8,6 +8,7 @@ class RandomMealViewModelFactory(
     private val repository: MealRepository
 ) : ViewModelProvider.Factory {
 
+    // Vytvoření instance RandomMealViewModelu s repository
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(RandomMealViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")

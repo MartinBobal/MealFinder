@@ -18,6 +18,7 @@ import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Search
 
+// Definice položek spodní navigace
 sealed class BottomNavItem(
     val route: String,
     val label: String,
@@ -38,6 +39,7 @@ sealed class BottomNavItem(
 @Composable
 fun BottomNavBar(navController: NavController) {
 
+    // Seznam položek spodní navigace
     val items = listOf(
         BottomNavItem.Home,
         BottomNavItem.Search,
@@ -47,11 +49,13 @@ fun BottomNavBar(navController: NavController) {
     NavigationBar(
         tonalElevation = 3.dp
     ) {
+        // Aktuální navigační cíl
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
 
         items.forEach { item ->
 
+            // Zjištění, zda je položka aktuálně vybraná
             val selected = currentRoute == item.route
 
             NavigationBarItem(

@@ -26,15 +26,21 @@ fun MealDetailScreen(
     onBack: () -> Unit,
     favoriteViewModel: FavoriteViewModel
 ) {
+    // Stav pro zobrazování Snackbar zpráv
     val snackbarHostState = remember { SnackbarHostState() }
+
+    // Coroutine scope vázaný na lifecycle Composable
     val coroutineScope = rememberCoroutineScope()
 
+    // Lokální stav pro detail receptu
     var meal by remember { mutableStateOf<Meal?>(null) }
 
+    // Sledování, zda je recept uložený v oblíbených
     val isFavorite by favoriteViewModel
         .isFavorite(mealId)
         .collectAsState(initial = false)
 
+    // Načtení detailu receptu při změně mealId
     LaunchedEffect(mealId) {
         val repo = MealRepository(MealApiClient.api)
         meal = repo.getMealById(mealId).meals?.firstOrNull()
@@ -53,14 +59,17 @@ fun MealDetailScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
+            // Tlačítko pro návrat zpět
             Button(onClick = onBack) { Text("Zpět") }
 
             Spacer(Modifier.height(16.dp))
 
+            // Zobrazení stavu načítání
             if (meal == null) {
                 Text("Načítám…")
             } else {
 
+                // Náhledový obrázek receptu
                 Image(
                     painter = rememberAsyncImagePainter(meal!!.strMealThumb),
                     contentDescription = null,
@@ -71,10 +80,12 @@ fun MealDetailScreen(
 
                 Spacer(Modifier.height(16.dp))
 
+                // Název receptu
                 Text(meal!!.strMeal ?: "")
 
                 Spacer(Modifier.height(16.dp))
 
+                // Tlačítko pro přidání nebo odebrání z oblíbených
                 Button(
                     onClick = {
                         if (isFavorite) {
@@ -102,6 +113,7 @@ fun MealDetailScreen(
 
                 Spacer(Modifier.height(24.dp))
 
+                // Textový postup receptu
                 Text(meal!!.strInstructions ?: "")
             }
         }

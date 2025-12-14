@@ -23,11 +23,13 @@ fun WelcomeScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
+        // Název aplikace
         Text(
             text = "MealFinder",
             modifier = Modifier.padding(bottom = 32.dp)
         )
 
+        // Navigace na náhodný recept
         Button(
             onClick = onRandomClick,
             modifier = Modifier.fillMaxWidth()
@@ -37,6 +39,7 @@ fun WelcomeScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Navigace na vyhledávání receptů
         Button(
             onClick = onSearchClick,
             modifier = Modifier.fillMaxWidth()
@@ -46,6 +49,7 @@ fun WelcomeScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Navigace na seznam oblíbených receptů
         Button(
             onClick = { navController.navigate("favorite") },
             modifier = Modifier.fillMaxWidth()

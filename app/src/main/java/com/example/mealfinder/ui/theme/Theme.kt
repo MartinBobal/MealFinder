@@ -11,35 +11,28 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
+// Barevné schéma pro tmavý režim
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
     secondary = PurpleGrey80,
     tertiary = Pink80
 )
 
+// Barevné schéma pro světlý režim
 private val LightColorScheme = lightColorScheme(
     primary = Purple40,
     secondary = PurpleGrey40,
     tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
 )
 
 @Composable
 fun MealFinderTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
+    // Povolení dynamických barev na Androidu 12+
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
+    // Výběr barevného schématu podle systému a verze Androidu
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
@@ -50,6 +43,7 @@ fun MealFinderTheme(
         else -> LightColorScheme
     }
 
+    // Aplikace globálního Material3 tématu
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,

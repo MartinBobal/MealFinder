@@ -19,15 +19,21 @@ fun RandomMealScreen(
     favoriteViewModel: FavoriteViewModel,
     onBack: () -> Unit
 ) {
+    // Stav pro Snackbar zprávy
     val snackbarHostState = remember { SnackbarHostState() }
+
+    // Coroutine scope pro UI akce
     val scope = rememberCoroutineScope()
 
+    // Načtení náhodného receptu při vstupu na obrazovku
     LaunchedEffect(Unit) {
         viewModel.loadRandomMeal()
     }
 
     val meal = viewModel.meal.value
     val mealId = meal?.idMeal ?: ""
+
+    // Zjištění, zda je náhodný recept v oblíbených
     val isFavorite by favoriteViewModel.isFavorite(mealId).collectAsState()
 
     Scaffold(
@@ -43,14 +49,17 @@ fun RandomMealScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
+            // Návrat zpět
             Button(onClick = onBack) { Text("Zpět") }
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Zobrazení stavu načítání
             if (meal == null) {
                 Text("Načítám...")
             } else {
 
+                // Obrázek náhodného receptu
                 Image(
                     painter = rememberAsyncImagePainter(meal.strMealThumb),
                     contentDescription = meal.strMeal,
@@ -61,10 +70,12 @@ fun RandomMealScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
+                // Název receptu
                 Text(text = meal.strMeal ?: "")
 
                 Spacer(modifier = Modifier.height(16.dp))
 
+                // Přidání nebo odebrání receptu z oblíbených
                 Button(
                     onClick = {
                         if (isFavorite) {
@@ -85,10 +96,13 @@ fun RandomMealScreen(
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
+
+                // Instrukce receptu
                 Text(text = meal.strInstructions ?: "")
 
                 Spacer(modifier = Modifier.height(24.dp))
 
+                // Načtení dalšího náhodného receptu
                 Button(onClick = { viewModel.loadRandomMeal() }) {
                     Text("Další náhodný recept")
                 }

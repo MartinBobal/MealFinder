@@ -20,6 +20,7 @@ fun SearchScreen(
     onMealClick: (String) -> Unit,
     onBack: () -> Unit
 ) {
+    // Lokální stav pro text vyhledávacího dotazu
     var query by remember { mutableStateOf("") }
 
     Column(
@@ -29,6 +30,7 @@ fun SearchScreen(
     ) {
         Spacer(Modifier.height(16.dp))
 
+        // Textové pole pro zadání vyhledávacího dotazu
         OutlinedTextField(
             value = query,
             onValueChange = { query = it },
@@ -38,6 +40,7 @@ fun SearchScreen(
 
         Spacer(Modifier.height(8.dp))
 
+        // Spuštění vyhledávání přes ViewModel
         Button(
             onClick = { viewModel.search(query) },
             modifier = Modifier.fillMaxWidth()
@@ -47,8 +50,10 @@ fun SearchScreen(
 
         Spacer(Modifier.height(16.dp))
 
+        // Sledování výsledků vyhledávání ze StateFlow
         val results = viewModel.results.collectAsState()
 
+        // Seznam nalezených receptů
         LazyColumn {
             items(results.value) { meal ->
 
@@ -59,6 +64,7 @@ fun SearchScreen(
                         .padding(vertical = 8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+                    // Náhledový obrázek receptu
                     Image(
                         painter = rememberAsyncImagePainter(meal.strMealThumb),
                         contentDescription = null,
@@ -67,6 +73,7 @@ fun SearchScreen(
                             .padding(end = 8.dp)
                     )
 
+                    // Název receptu
                     Text(meal.strMeal ?: "")
                 }
             }

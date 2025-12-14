@@ -16,6 +16,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Nastavení Compose obsahu aplikace
         setContent {
             MealFinderTheme {
                 MainScreen()
@@ -26,15 +27,19 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen() {
+    // NavController pro řízení navigace v aplikaci
     val navController = rememberNavController()
 
+    // Sdílený ViewModel pro oblíbené recepty
     val favoriteViewModel: FavoriteViewModel = viewModel()
 
     Scaffold(
+        // Spodní navigační lišta aplikace
         bottomBar = {
             BottomNavBar(navController)
         }
     ) { innerPadding ->
+        // Hlavní navigační host aplikace
         AppNavHost(
             navController = navController,
             favoriteViewModel = favoriteViewModel,

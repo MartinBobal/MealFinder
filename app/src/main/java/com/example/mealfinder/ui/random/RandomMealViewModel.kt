@@ -12,9 +12,11 @@ class RandomMealViewModel(
     private val repository: MealRepository
 ) : ViewModel() {
 
+    // Stav náhodně načteného receptu
     private val _meal = MutableStateFlow<Meal?>(null)
     val meal = _meal.asStateFlow()
 
+    // Načtení náhodného receptu z API
     fun loadRandomMeal() {
         viewModelScope.launch {
             try {

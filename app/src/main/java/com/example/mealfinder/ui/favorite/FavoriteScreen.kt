@@ -15,6 +15,7 @@ fun FavoriteScreen(
     favoritesViewModel: FavoriteViewModel,
     onMealClick: (String) -> Unit
 ) {
+    // Kolekce oblíbených receptů ze StateFlow
     val favorites by favoritesViewModel.favorites.collectAsState()
 
     Scaffold(
@@ -24,6 +25,7 @@ fun FavoriteScreen(
     ) { padding ->
         Box(Modifier.padding(padding)) {
 
+            // Zobrazení zprávy při prázdném seznamu
             if (favorites.isEmpty()) {
                 Text(
                     "Zatím nemáš žádné oblíbené recepty.",
@@ -32,6 +34,7 @@ fun FavoriteScreen(
             } else {
                 val list = favorites.toList()
 
+                // Seznam oblíbených receptů
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
@@ -39,6 +42,7 @@ fun FavoriteScreen(
                 ) {
                     items(list) { (id, name) ->
 
+                        // Řádek s názvem receptu a tlačítkem pro odebrání
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
